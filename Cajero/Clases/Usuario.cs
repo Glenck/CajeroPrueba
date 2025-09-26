@@ -18,15 +18,13 @@ namespace Cajero.Clases
         {
             if (Cantidad <= 0)
             {
-                Console.WriteLine("El saldo a depositar debe de ser mayor que $0 ");
-                
+                Console.WriteLine("El saldo a depositar debe de ser mayor que $0 ");                
             }
             else
             {
                 Saldo += Cantidad;
                 Console.WriteLine($"La cantidad depositada es de {Cantidad}");
-                Console.WriteLine($"Su nuevo saldo es {Saldo}");
-                
+                Console.WriteLine($"Su nuevo saldo es {Saldo}");                
             }
         }
 
@@ -35,14 +33,12 @@ namespace Cajero.Clases
             if (Saldo < Valor)
             {
                 Console.WriteLine("El saldo isuficiente  ");
-
             }
             else
             {
                 Saldo -= Valor;
                 Console.WriteLine($"La cantidad retirada es de {Valor}");
                 Console.WriteLine($"Su nuevo saldo es {Saldo}");
-
             }
         }
 
