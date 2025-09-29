@@ -10,44 +10,58 @@ namespace Cajero.Clases
     internal class Usuario
     {
         public string NumeroCuenta { get; set; }
+        public string Nombre { get; set; }
 
         public decimal Saldo { get; set; }
-        public int pin {  get; set; }
+        public int pin { get; set; }
 
-        public void Depositar(decimal Cantidad)
+        public void Depositar()
         {
+            Console.WriteLine("Digite el monto a depositar ");
+            decimal Cantidad = decimal.Parse(Console.ReadLine());
+
             if (Cantidad <= 0)
             {
                 Console.WriteLine("El saldo a depositar debe de ser mayor que $0 ");
-                
             }
             else
             {
                 Saldo += Cantidad;
                 Console.WriteLine($"La cantidad depositada es de {Cantidad}");
                 Console.WriteLine($"Su nuevo saldo es {Saldo}");
-                
             }
+            Console.ReadKey(true);
         }
-
-        public void Retirar(decimal Valor)
+        public void Retirar()
         {
+            Console.WriteLine("Digite la Cantidad a retirar");
+            decimal Valor = decimal.Parse(Console.ReadLine());
             if (Saldo < Valor)
             {
                 Console.WriteLine("El saldo isuficiente  ");
-
             }
             else
             {
                 Saldo -= Valor;
                 Console.WriteLine($"La cantidad retirada es de {Valor}");
                 Console.WriteLine($"Su nuevo saldo es {Saldo}");
-
             }
+            Console.ReadKey(true);
         }
+        public void VerSaldo()
+        {
+            Console.WriteLine($"Saldo actual: {Saldo}");
 
+            Console.ReadKey(true);
 
-
-
+        }
     }
+
+
+
+
+
+
+
 }
+
