@@ -13,31 +13,47 @@ namespace Cajero
     {
         static void Main(string[] args)
         {
-            Usuario usuario = new Usuario(); // Instancia de la clase Usuario
+             // Instancia de la clase Usuario
             string rutaUsuarios = ("C:\\Users\\Usuario\\Documents\\Git\\Cajero\\CajeroPrueba\\Archivos txt\\Usuarios.txt");
             string rutaMovimientos = ("C:\\Users\\Usuario\\Documents\\Git\\Cajero\\CajeroPrueba\\Archivos txt\\Movimientos.txt");
             //defino la ruta del archivo de texto donde se almacenan los usuarios y movimientos
 
-            List<Usuario> listaUsuarios = new List<Usuario>()// Lista de usuarios predefinidos
-            {
-                new Usuario(){ NumeroCuenta = "1003687336", Nombre = "Fabio Andres", pin = 2701, Saldo = 10000000 },
-                new Usuario(){ NumeroCuenta = "1234567890", Nombre = "Daniel Hernandez", pin = 0987, Saldo = 2000000 },
-                new Usuario(){ NumeroCuenta = "1233492717", Nombre = "Aswin Niño", pin = 4562, Saldo = 15000000 },
-            };
 
-            using (StreamWriter tx = new StreamWriter(rutaUsuarios))
+
+            Usuario usuario = new Usuario() { NumeroCuenta = "1003687336", Nombre = "Fabio Andres", Pin = 2701, Saldo = 10000000 };
+                
+
+            
+            if (!File.Exists(rutaUsuarios))
             {
-                foreach (Usuario i in listaUsuarios)
+                using (StreamWriter tx = File.CreateText(rutaUsuarios))
                 {
+
                     tx.WriteLine($"Cuenta:{usuario.NumeroCuenta}");
                     tx.WriteLine($"Nombre: {usuario.Nombre}");
-                    tx.WriteLine($"Pin: {usuario.pin}");
+                    tx.WriteLine($"Pin: {usuario.Pin}");
                     tx.WriteLine($"Saldo: {usuario.Saldo}");
                     tx.WriteLine("------------------------");
-                }
-            }
-            
 
+                }
+                Console.WriteLine("Archivo creado y texto escrito correctamente.");
+
+            }
+            else 
+            {
+                using (StreamWriter tx = File.AppendText(rutaUsuarios))
+                {
+
+                    tx.WriteLine($"Cuenta:{usuario.NumeroCuenta}");
+                    tx.WriteLine($"Nombre: {usuario.Nombre}");
+                    tx.WriteLine($"Pin: {usuario.Pin}");
+                    tx.WriteLine($"Saldo: {usuario.Saldo}");
+                    tx.WriteLine("------------------------");
+                   
+                }
+                Console.WriteLine("El archivo ya existe. Se ha agregado nuevo usuario.");
+            }
+                
 
 
 
@@ -92,7 +108,7 @@ namespace Cajero
                 /*
                 Console.WriteLine(":: 1. Ingresar                     ::");
                 Console.WriteLine(":: 2. Salir                        ::");
-                
+
                 Console.WriteLine(":: 1. Depositar                    ::");
                 Console.WriteLine(":: 2. Retirar                      ::");
                 Console.WriteLine(":: 3. Consultar saldo              ::");
@@ -120,10 +136,90 @@ namespace Cajero
 
 
                 }
-   
+
                        */
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*
+            bool contrlador = true ;
+            while (contrlador)
+            {
+                Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
+                Console.WriteLine(":: Bienvenido al cajero automatico ::");
+                Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
+                Console.WriteLine("::::::  Seleccione una opcion  ::::::");
+                Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
+
+                /*
+                Console.WriteLine(":: 1. Ingresar                     ::");
+                Console.WriteLine(":: 2. Salir                        ::");
+
+                Console.WriteLine(":: 1. Depositar                    ::");
+                Console.WriteLine(":: 2. Retirar                      ::");
+                Console.WriteLine(":: 3. Consultar saldo              ::");
+                Console.WriteLine(":: 4. Movimientos                  ::");
+                Console.WriteLine(":: 5. Salir                        ::");
+
+                int opcion = int.Parse(Console.ReadLine());
+
+                switch (opcion) {
+                    case 1:
+                        usuario.Depositar();
+                        break;
+
+                        case 2:
+                        usuario.Retirar();
+                        break;
+                        case 3:
+                      usuario.VerSaldo();
+                        break;
+                        case 5:
+                        contrlador = false;
+                        break;
+
+
+
+
+                }
+
+                       */
 
         }
+
+        
     }
 }
