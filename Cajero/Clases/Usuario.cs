@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace Cajero.Clases
 
         public decimal Saldo { get; set; }
 
-        public int Pin { get; set; }
+        public string Pin { get; set; }
 
-    
+
 
 
         public void Depositar()
@@ -59,13 +60,54 @@ namespace Cajero.Clases
             Console.ReadKey(true);
 
         }
+        public void guardarUsuario(string rutaUsuarios)
+        {
+            if (!File.Exists(rutaUsuarios))
+            {
+                using (StreamWriter tx = File.CreateText(rutaUsuarios))
+                {
+                    tx.Write($"{NumeroCuenta},");
+                    tx.Write($"{Pin},");
+                    tx.Write($"{Nombre},");
+                    tx.Write($"{Saldo}");
+                    Console.WriteLine();
+                }
+
+            }
+            else
+            {
+                using (StreamWriter tx = File.AppendText(rutaUsuarios))
+                {
+                    tx.Write($"{NumeroCuenta},");
+                    tx.Write($"{Pin},");
+                    tx.Write($",{Nombre}");
+                    tx.Write($",{Saldo}");
+                    tx.WriteLine();
+                }
+            }
+        }
+        public static bool IniciarSecion(string rutaUsuarios, string ComprobarUsuario, string ComprobarPin)
+        {
+            if (File.Exists(rutaUsuarios))
+            {
+                string[] lineas = File.ReadAllLines(rutaUsuarios);
+                foreach (string linea in lineas)
+                {
+                    string[] datos = linea.Split(',');
+                    
+
+                        if (datos[0] == ComprobarUsuario && datos[1] == ComprobarPin)
+                        {
+                            return true; // Credenciales válidas
+                        }
+                    
+                }
+            }
+            
+                return false; // Credenciales inválidas o archivo no encontrado
+            
+        
+        }
+
     }
-
-
-
-
-
-
-
 }
-
