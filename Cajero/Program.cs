@@ -17,85 +17,53 @@ namespace Cajero
             // Instancia de la clase Usuario
             string rutaUsuarios = ("C:\\Users\\Usuario\\Documents\\Git\\CajeroPrueba\\Archivos txt\\Usuarios.txt");
             string rutaMovimientos = ("C:\\Users\\Usuario\\Documents\\Git\\CajeroPrueba\\Archivos txt\\Movimientos txt");
-            //defino la ruta del archivo de texto donde se almacenan los usuarios y movimientos
-
             Usuario usuario = new Usuario();
 
-            /*
-            Usuario usuario = new Usuario() { NumeroCuenta = "1003687336", Pin = "2701", Nombre = "Fabio Andres", Saldo = 10000000 };
-                
+            //List<Usuario> ListaUsurios = CargarUsuarios(rutaUsuarios);
             
+            //defino la ruta del archivo de texto donde se almacenan los usuarios y movimientos
+ 
+                 
             
-            if (!File.Exists(rutaUsuarios))
-            {
-                using (StreamWriter tx = File.CreateText(rutaUsuarios))
-                {
-
-                    tx.Write($"{usuario.NumeroCuenta},");
-                    tx.Write($"{usuario.Pin},");
-                    tx.Write($"{usuario.Nombre},");
-                    tx.Write($"{usuario.Saldo}");
-                    Console.WriteLine();
-
-
-                }
-                Console.WriteLine("Archivo creado y texto escrito correctamente.");
-
-            }
-            else 
-            {
-                using (StreamWriter tx = File.AppendText(rutaUsuarios))
-                {
-
-                    tx.Write($"{usuario.NumeroCuenta},");
-                    tx.Write($"{usuario.Pin},");
-                    tx.Write($",{usuario.Nombre}");
-                    tx.Write($",{usuario.Saldo}");
-                    tx.WriteLine();
-                   
-                }
-                Console.WriteLine("El archivo ya existe. Se ha agregado nuevo usuario.");
-            }
-            */
-
             Console.WriteLine("Digite su usuario");
             string ComprobarUsuario = Console.ReadLine();
             Console.WriteLine();
             Console.WriteLine("Digite su pin");
             string ComprobarPin = Console.ReadLine();
-           
 
+            bool accesoConcedido = Usuario.IniciarSecion(rutaUsuarios, ComprobarUsuario,  ComprobarPin);
 
-            Console.Clear();
-            
-           bool accesoConcedido = Usuario.IniciarSecion(rutaUsuarios, ComprobarUsuario, ComprobarPin);
+            usuario.CargarUsuarios(rutaUsuarios, ComprobarUsuario, ComprobarPin);
+
 
             if (accesoConcedido)
+       
             {
+                //List<Usuario> listaUsuarios = CargarUsuarios(rutaUsuarios);
 
                 bool controlador = true;
-                while (!controlador)
+                while (controlador)
                 {
+                    Console.Clear();
                     Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
                     Console.WriteLine(":: Bienvenido al cajero automatico ::");
                     Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
                     Console.WriteLine("::::::  Seleccione una opcion  ::::::");
                     Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
-
-
-                    Console.WriteLine(":: 1. Ingresar                     ::");
-                    Console.WriteLine(":: 2. Salir                        ::");
-
                     Console.WriteLine(":: 1. Depositar                    ::");
                     Console.WriteLine(":: 2. Retirar                      ::");
                     Console.WriteLine(":: 3. Consultar saldo              ::");
                     Console.WriteLine(":: 4. Movimientos                  ::");
                     Console.WriteLine(":: 5. Salir                        ::");
-                    Console.Clear();
+                    Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
+                    Console.WriteLine(":::::::::::::::::::::::::::::::::::::");
+
 
                     int opcion = int.Parse(Console.ReadLine());
 
-                    switch (opcion) {
+                    switch (opcion)
+                    {
+
                         case 1:
                             usuario.Depositar();
                             break;
@@ -106,6 +74,10 @@ namespace Cajero
                         case 3:
                             usuario.VerSaldo();
                             break;
+                        case 4:
+                            List<string> usuarios = Usuario.MostrarMovimiento(usuario.NumeroCuenta);
+                            break;
+
                         case 5:
                             controlador = false;
                             break;
@@ -115,12 +87,13 @@ namespace Cajero
 
                     }
                 }
+              
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Acceso denegado. Usuario o PIN incorrecto.");
-                return; // Salir del programa si el acceso es denegado
+                accesoConcedido = false; // Salir del programa si el acceso es denegado
             }
 
             Console.ReadKey(true);
