@@ -9,7 +9,7 @@ using System.Timers;
 
 namespace Cajero.Clases
 {
-    internal class Usuario
+    public class Usuario
     {
         public string NumeroCuenta { get; set; }
         public string Nombre { get; set; }
@@ -69,55 +69,54 @@ namespace Cajero.Clases
 
             Console.ReadKey(true);
         }
-     
-        
-        public static bool IniciarSecion(string rutaUsuarios, string ComprobarUsuario, string ComprobarPin)
+
+
+        /*  public static bool IniciarSecion(string rutaUsuarios, string ComprobarUsuario, string ComprobarPin)
+         {
+             if (File.Exists(rutaUsuarios))
+             {
+                 string[] lineas = File.ReadAllLines(rutaUsuarios);
+                 foreach (string linea in lineas)
+                 {
+                     string[] datos = linea.Split(',');                    
+
+                         if (datos[0] == ComprobarUsuario && datos[1] == ComprobarPin)
+                         {
+                             return true; // Credenciales válidas
+                         }                   
+                 }
+             }
+
+                 return false; // Credenciales inválidas o archivo no encontrado
+
+
+         } */
+        static Usuario iSA(string rutaUsuarios, string comprobarUsuario, string comprobarPin)
         {
             if (File.Exists(rutaUsuarios))
             {
-                string[] lineas = File.ReadAllLines(rutaUsuarios);
-                foreach (string linea in lineas)
+                foreach (string linea in File.ReadAllLines(rutaUsuarios))
                 {
-                    string[] datos = linea.Split(',');                    
-
-                        if (datos[0] == ComprobarUsuario && datos[1] == ComprobarPin)
-                        {
-                            return true; // Credenciales válidas
-                        }                   
-                }
-            }
-            
-                return false; // Credenciales inválidas o archivo no encontrado
-            
-         
-        }
-       public void CargarUsuarios(string rutaUsuarios, string comprobarUsuario, string comprobarPin)
-        {
-            
-
-            if (File.Exists(rutaUsuarios))
-            {
-                string[] lineas = File.ReadAllLines(rutaUsuarios);
-                foreach (string linea in lineas)
-                {
+                    string ln = linea.Trim();
                     string[] datos = linea.Split(',');
-                    if (datos.Length == 4)
+                    if (datos.Length < 4)
                     {
-
-                        string NumeroCuenta = datos[0];
-                        string Pin = datos[1];
-                        string Nombre = datos[2];
-                        decimal Saldo = decimal.Parse(datos[3]);
-                            if (comprobarUsuario == NumeroCuenta && comprobarPin == Pin)
-                        {
-                             
-                        }
-                        
+                        continue;
+                    }
+                    string numeroCuenta = datos[0].Trim();
+                    string pin = datos[1].Trim();
+                    string nombre = datos[2].Trim();
+                    decimal saldo = 0;
+                    decimal.TryParse(datos[3].Trim(), out saldo);
+                    if (numeroCuenta == comprobarUsuario && pin == comprobarPin)
+                    {
+                        return new Usuario{ NumeroCuenta = numeroCuenta,Pin = pin,Nombre = nombre,Saldo = saldo};
                     }
                 }
             }
-            
+            return null; // Credenciales inválidas o archivo no encontrado  
         }
+
         public static void registroMovimientos(string mensaje)
         {
             string rutaMovimientos = ("C:\\Users\\Usuario\\Documents\\Git\\CajeroPrueba\\Archivos txt\\Movimientos txt");
@@ -137,10 +136,11 @@ namespace Cajero.Clases
                 string[] linea = File.ReadAllLines(rutaMovimientos);
                 foreach (string s in linea)
                 {
+                    int i = 0;i++;
                     if (s.Contains($"{numerocuenta}"))
                     {
                         movimientos.Add(s);
-                        Console.WriteLine(linea[s]);
+                        Console.WriteLine(linea[i]);
                     }
                     
                 }

@@ -17,7 +17,7 @@ namespace Cajero
             // Instancia de la clase Usuario
             string rutaUsuarios = ("C:\\Users\\Usuario\\Documents\\Git\\CajeroPrueba\\Archivos txt\\Usuarios.txt");
             string rutaMovimientos = ("C:\\Users\\Usuario\\Documents\\Git\\CajeroPrueba\\Archivos txt\\Movimientos txt");
-            Usuario usuario = new Usuario();
+           // Usuario usuario = new Usuario();
 
             //List<Usuario> ListaUsurios = CargarUsuarios(rutaUsuarios);
             
@@ -26,17 +26,15 @@ namespace Cajero
                  
             
             Console.WriteLine("Digite su usuario");
-            string ComprobarUsuario = Console.ReadLine();
+            string ComprobarUsuario = Console.ReadLine().Trim();
             Console.WriteLine();
             Console.WriteLine("Digite su pin");
-            string ComprobarPin = Console.ReadLine();
+            string ComprobarPin = Console.ReadLine().Trim();
 
-            bool accesoConcedido = Usuario.IniciarSecion(rutaUsuarios, ComprobarUsuario,  ComprobarPin);
-
-            usuario.CargarUsuarios(rutaUsuarios, ComprobarUsuario, ComprobarPin);
+            Usuario accesoConcedido = iSA (rutaUsuarios, ComprobarUsuario,  ComprobarPin);
 
 
-            if (accesoConcedido)
+            if (accesoConcedido != null)
        
             {
                 //List<Usuario> listaUsuarios = CargarUsuarios(rutaUsuarios);
@@ -65,17 +63,17 @@ namespace Cajero
                     {
 
                         case 1:
-                            usuario.Depositar();
+                            accesoConcedido.Depositar();
                             break;
 
                         case 2:
-                            usuario.Retirar();
+                            accesoConcedido.Retirar();
                             break;
                         case 3:
-                            usuario.VerSaldo();
+                            accesoConcedido.VerSaldo();
                             break;
                         case 4:
-                            List<string> usuarios = Usuario.MostrarMovimiento(usuario.NumeroCuenta);
+                            List<string> usuarios = Usuario.MostrarMovimiento(  accesoConcedido.NumeroCuenta);
                             break;
 
                         case 5:
@@ -93,7 +91,7 @@ namespace Cajero
             {
                 Console.Clear();
                 Console.WriteLine("Acceso denegado. Usuario o PIN incorrecto.");
-                accesoConcedido = false; // Salir del programa si el acceso es denegado
+                accesoConcedido = null; // Salir del programa si el acceso es denegado
             }
 
             Console.ReadKey(true);
